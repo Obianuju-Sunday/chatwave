@@ -1,16 +1,37 @@
+require('dotenv').config()
+
 const express = require('express');
+const mongoose = require('mongoose');
+const mongoData = process.env.DATABASE_URL;
+mongoose.connect(mongoData);
+const cors = require('cors')
+const database = mongoose.connection;
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const routes = require('./routes/userRoute');
 
+
+database.on('error', (error) => {
+  console.log(error);
+})
+
+database.once('connected', () => {
+  console.log('Database Connected');
+})
+
+app.use(express.json())
+
+app.use(
+  '/api', routes);
 
 app.get('/', (req, res) => {
 
   const path = require('path');
 
-  const filePath = path.join(__dirname, '..', 'src', 'pages', 'home', 'index.html');
+  const filePath = path.join(__dirname, '..', 'client', 'home', 'index.html');
 
   res.sendFile(filePath);
 
