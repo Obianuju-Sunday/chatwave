@@ -43,17 +43,12 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre('save', async function(next) {
-  //  Only run this func if password was modified
-  if(this.isModified('password')) return next();
-
-  // Hash password with cost of 12
-  this.password = await bcrypt.hash(this.password, 12);
-
-  // Delete the passwordConfirm
-  this.passwordConfirm = undefined;
+userSchema.pre('save', async function (next) {
+  // Hash password before saving
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
   next();
-})
+});
 
 const User = mongoose.model('User', userSchema);
 
