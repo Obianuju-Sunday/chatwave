@@ -3,50 +3,64 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-    const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
+    try {
+        const { fullName, userName, email, password, passwordConfirm } = req.body;
 
-        try {
-
-            const newUser = await User.create({
-                fullName: req.body.fullName,
-                userName: req.body.userName,
-                email: req.body.email,
-                password: req.body.password,
-                passwordConfirm: req.body.passwordConfirm
-            });
-    
-            let user = await User.findOne({ email: req.body })
-    
-            if (user) return res.status(404).json('User with email already exist...')
-    
-            if (!fullName || !userName || !email || !password || !passwordConfirm) { 
-                return res.status(400).json('All fields are required!') 
-            }
-    
-            if (!validator.isEmail({email: req.body.email})) res.status(400).json('Email must be valid!!')
-    
-            if (!validator.isStrongPassword(password)) res.status(400).json('Password must be a strong one!!') //one uppercase letter, lowercase letter, a number and a special character
-    
-            // await user.save();
-    
-            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-                expiresIn: process.env.JWT_EXPIRES_IN
-            })
-    
-    
-            res.status(201).json({
-                status: 'success',
-                token,
-                data: {
-                    user: newUser
-                }
-            });
-        } catch (error) {
-            // next(new AppError("Internal server error", 500))
-            console.log(error);
-            res.status(500).json(error)
+        // Check if all required fields are provided
+        if (!fullName || !userName || !email || !password || !passwordConfirm) {
+            return res.status(400).json('All fields are required!');
         }
-    };
-    
+
+        // Check if email is valid
+        if (!validator.isEmail(email)) {
+            return res.status(400).json('Email must be valid!!');
+        }
+
+        // Check if password is strong
+        if (!validator.isStrongPassword(password)) {
+            return res.status(400).json('Password must be a strong one!! Must contain at least one uppercase letter, lowercase letter, a number and a special character');//one uppercase letter, lowercase letter, a number and a special character
+        }
+
+        // Check if passwords match
+        if (password !== passwordConfirm) {
+            return res.status(400).json('Passwords do not match!');
+        }
+
+        // Check if user with the same email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json('User with email already exists...');
+        }
+
+        // Create a new user
+        const newUser = await User.create({
+            fullName,
+            userName,
+            email,
+            password,
+            passwordConfirm
+        });
+
+        // Generate JWT token
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        });
+
+        // Return success response
+        res.status(201).json({
+            status: 'success',
+            token,
+            data: {
+                user: newUser
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json('Internal server error');
+    }
+};
+
+
 
 module.exports = { registerUser }
