@@ -22,6 +22,8 @@ database.once('connected', () => {
   console.log('Database Connected');
 })
 
+app.use(cors());
+
 app.use(express.json())
 
 app.use(
