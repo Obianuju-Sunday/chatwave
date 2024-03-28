@@ -33,7 +33,9 @@ app.get('/', (req, res) => {
 
   const path = require('path');
 
-  const filePath = path.join(__dirname, '..', 'client', 'home', 'index.html');
+  // const filePath = path.join(__dirname, '..', 'client', 'home', 'index.html');
+  const filePath = path.join(__dirname, '..', 'client', 'pages', 'login.html');
+
 
   res.sendFile(filePath);
 
