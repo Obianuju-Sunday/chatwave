@@ -73,6 +73,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
+
 
     <script>
         const socket = io();
@@ -97,25 +99,6 @@
             message.appendChild(item);
         })
 
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyA5oANxTSs1VlhSqapnYOOFVL64Tth1zEg",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "my-first-firebase-projec-20e5c",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "805714036022",
-            appId: "YOUR_APP_ID"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyA5oANxTSs1VlhSqapnYOOFVL64Tth1zEg",
@@ -127,9 +110,6 @@
             measurementId: "G-6G7R481J1F"
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
 
     </script>
 </body>

@@ -11,7 +11,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const routes = require('./routes/userRoute');
+const routes = require('./routes/userRoute')
 
 
 database.on('error', (error) => {
@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
 
   const path = require('path');
 
-  // const filePath = path.join(__dirname, '..', 'client', 'home', 'index.html');
-  const filePath = path.join(__dirname, '..', 'client', 'pages', 'login.html');
+  const filePath = path.join(__dirname, '..', 'client', 'home', 'index.html');
+  // const filePath = path.join(__dirname, '..', 'client', 'pages', 'login.html');
 
 
   res.sendFile(filePath);
