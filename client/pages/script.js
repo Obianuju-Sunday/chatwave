@@ -22,21 +22,23 @@ loginBtn.addEventListener('click', () => {
       const username = document.getElementById('signUp-userName').value;
       const password = document.getElementById('signUp-password').value;
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        // Redirect or do something else after successful login
-        window.location.href = 'index.html';
+      console.log(username.password);
 
-      })
-      .catch((error) => {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
-        // Handle errors
+    // firebase.auth().signInWithEmailAndPassword(email, password)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     var user = userCredential.user;
+    //     // Redirect or do something else after successful login
+    //     window.location.href = 'index.html';
 
-        console.log(error);
-      });
+    //   })
+    //   .catch((error) => {
+    //     // var errorCode = error.code;
+    //     // var errorMessage = error.message;
+    //     // Handle errors
+
+    //     console.log(error);
+    //   });
   });
 
 
